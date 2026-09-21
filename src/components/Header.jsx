@@ -20,7 +20,7 @@ import CustomerAuthModal from './CustomerAuthModal.jsx';
 import MyOrdersModal from './MyOrdersModal.jsx';
 import ProfileModal from './ProfileModal.jsx';
 
-export default function Header({ search, onSearchChange, onCategorySelect, categories = [] }) {
+export default function Header({ search, onSearchChange, onCategorySelect, categories = [], config }) {
   const { totalCount, openCart } = useCart();
   const { totalCount: wishlistCount, openWishlist } = useWishlist();
   const { user, logout } = useCustomerAuth();
@@ -47,11 +47,11 @@ export default function Header({ search, onSearchChange, onCategorySelect, categ
           </button>
 
           <Link to="/" className="flex shrink-0 items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-white">
-              <Wrench size={18} />
+            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-slate-900 text-white">
+              {config?.logo_url ? <img src={config.logo_url} alt="Store logo" className="h-full w-full object-contain" /> : <Wrench size={18} />}
             </div>
             <span className="hidden text-sm font-extrabold uppercase tracking-wide text-slate-900 sm:block">
-              Azmat Mobile Parts
+              {config?.store_name || 'Azmat Mobile Parts'}
             </span>
           </Link>
 

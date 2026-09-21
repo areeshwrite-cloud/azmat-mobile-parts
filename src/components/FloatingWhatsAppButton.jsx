@@ -1,9 +1,10 @@
 import { MessageCircle } from 'lucide-react';
-import { whatsappNumber, buildWhatsappLink } from '../lib/whatsapp.js';
+import { useSettings } from '../context/SettingsContext.jsx';
 
 export default function FloatingWhatsAppButton() {
-  const number = whatsappNumber();
-  const link = buildWhatsappLink('Salam! I have a question regarding Azmat Mobile Parts products.');
+  const { config } = useSettings();
+  const number = (config.whatsapp || config.contact_phone || '').replace(/\D/g, '');
+  const link = `https://wa.me/${number}?text=${encodeURIComponent('Salam! I have a question regarding Azmat Mobile Parts products.')}`;
 
   return (
     <a

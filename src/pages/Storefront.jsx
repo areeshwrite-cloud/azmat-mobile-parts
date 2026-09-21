@@ -9,13 +9,21 @@ import FloatingWhatsAppButton from '../components/FloatingWhatsAppButton.jsx';
 import Footer from '../components/Footer.jsx';
 import { useProducts } from '../hooks/useProducts.js';
 import { getUniqueCategories } from '../lib/categories.js';
+import { useSettings } from '../context/SettingsContext.jsx';
+import { useCategories } from '../hooks/useCategories.js';
 
 export default function Storefront() {
   const { products, loading } = useProducts();
+  const customCategories = useCategories();
+  const { config } = useSettings();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
 
-  const categories = useMemo(() => getUniqueCategories(products), [products]);
+  const categories = useMemo(() => {
+    const fromProducts = getUniqueCategories(products);
+    const fromCollection = customCategories.map((item) => item.name || item.title).filter(Boolean);
+    return Array.from(new Set([...fromProducts, ...fromCollection]));
+  }, [products, customCategories]);
 
   const handleCategorySelect = (cat) => {
     setCategory(cat);
@@ -40,14 +48,15 @@ export default function Storefront() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <TopBar />
+      <TopBar config={config} />
       <Header
         search={search}
         onSearchChange={setSearch}
         onCategorySelect={handleCategorySelect}
         categories={categories}
+        config={config}
       />
-      <HeroBanner />
+      <HeroBanner config={config} />
       <CategoryGrid products={products} onSelect={handleCategorySelect} />
 
       {isBrowsing && newStock.length > 0 && (
@@ -86,7 +95,7 @@ export default function Storefront() {
         <ProductGrid products={filtered} loading={loading} />
       </main>
 
-      <Footer />
+      <Footer config={config} />
 
       <FloatingWhatsAppButton />
     </div>

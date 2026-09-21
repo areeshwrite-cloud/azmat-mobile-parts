@@ -1,5 +1,5 @@
 // Resizes and compresses an image file into a JPEG data URL small enough for a Firestore field.
-export function compressImageToDataUrl(file, maxDimension = 800, quality = 0.7) {
+export function compressImageToDataUrl(file, maxDimension = 500, quality = 0.7) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = () => reject(new Error('Could not read the selected file.'));

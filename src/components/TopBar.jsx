@@ -1,16 +1,16 @@
 import { Phone, Truck, MessageCircle } from 'lucide-react';
-import { whatsappNumber } from '../lib/whatsapp.js';
 
-export default function TopBar() {
-  const number = whatsappNumber();
-  const displayNumber = number ? `+${number}` : 'N/A';
+export default function TopBar({ config }) {
+  const phone = config?.whatsapp || '0319-7900202';
+  const number = phone.replace(/\D/g, '');
+  const displayNumber = phone || 'N/A';
 
   return (
     <div className="hidden sm:block bg-black text-slate-200 text-xs">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2">
           <Truck size={14} className="text-emerald-400" />
-          <span>Wholesale pricing for repair shops across Pakistan | Helpline: 0319-7900202</span>
+          <span>Wholesale pricing for repair shops across Pakistan | Helpline: {phone}</span>
         </div>
         <div className="flex items-center gap-4">
           <a
