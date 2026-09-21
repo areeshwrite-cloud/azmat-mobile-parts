@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Products ko koi bhi dekh sake aur update kar sake
+    match /products/{document=**} {
+      allow read, write: if true;
+    }
+
+    // Orders ko save (create) aur read karne ki permission
+    match /orders/{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
